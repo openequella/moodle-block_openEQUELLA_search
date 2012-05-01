@@ -1,0 +1,9 @@
+PROPOSED ENHANCEMENTS
+
+* AJAX retrieval of search results
+
+* Allow for configuration of multiple searches, then list them all in the block
+
+* Ability to configure additional result columns (name + xpath)
+
+* Ability to configure extra search criteria
