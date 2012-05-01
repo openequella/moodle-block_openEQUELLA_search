@@ -1,0 +1,53 @@
+<?php
+
+// This file is part of the EQUELLA Moodle Integration - http://code.google.com/p/equella-moodle-module/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+require_once($CFG->dirroot.'/mod/equella/common/lib.php');
+require_once($CFG->dirroot.'/mod/equella/common/soap.php');
+
+$equella = new EQUELLA(equella_soap_endpoint());
+$equella->loginWithToken(equella_getssotoken());
+if( $equella->hasMethod('getSearchableCollections') ) {
+    $collectionsXml = $equella->searchableCollections();
+} else {
+	$collectionsXml = $equella->contributableCollections();
+}
+?>
+
+<table cellpadding="9" cellspacing="0">
+  <tr valign="top">
+    <td align="right">
+       <?php print_string('config.collections.title', 'block_equella_search'); ?>:
+    </td>
+    <td>
+        <?php
+        foreach( $collectionsXml->nodeList('/xml/itemdef') as $collectionNode)
+	    {
+            $uuid = $collectionsXml->nodeValue('uuid', $collectionNode);
+            ?>
+            <input type="checkbox" name="collection[<?p($uuid)?>]" value="true" <? if (isset($this->config->collection[$uuid])) echo "checked"?>>
+            <? p($collectionsXml->nodeValue('name', $collectionNode)) ?><br>
+            <?
+		}
+        ?>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <input type="submit" value="<?php print_string('savechanges') ?>" />
+    </td>
+  </tr>
+</table>

@@ -23,7 +23,7 @@ require_once($CFG->libdir.'/adminlib.php');
 require_once($CFG->dirroot.'/blocks/moodleblock.class.php');
 require_once($CFG->dirroot.'/blocks/equella_search/block_equella_search.php');
 
-global $DB, $CFG,$USER, $OUTPUT;
+global $CFG;
 
 $courseid       = required_param('courseid', PARAM_INT); 
 $page			= optional_param('page', 0, PARAM_INT);
@@ -33,33 +33,27 @@ $searchstring	= optional_param('searchstring', '', PARAM_TEXT);
 
 set_time_limit(100);
 
-$course = $DB->get_record('course', array('id' => $courseid));
+$course = get_record('course', 'id', $courseid);
 require_login($course);
 
-$PAGE->set_url('/blocks/equella_search/equella_search_api.php', array('courseid' => $courseid));
-$PAGE->set_title($course->shortname.': '.get_string('pagetitle', 'block_equella_search'));
-$PAGE->set_heading($course->fullname.': '.get_string('pagetitle', 'block_equella_search'));
-$PAGE->navbar->add(get_string('searchaction', 'block_equella_search'), $CFG->wwwroot.'/blocks/equella_search/equella_search_api.php?courseid='.$courseid); 
+$navlinks[] = array('name' => get_string('searchaction','block_equella_search'), 'link' => "$CFG->wwwroot/course/view.php?id=$courseid", 'type' => 'misc');
+$navigation = build_navigation($navlinks);
+print_header("$course->fullname: $course->fullname", $course->fullname, $navigation);
+print_container_start();
 
-echo $OUTPUT->header();
-echo $OUTPUT->container_start();
-
-$configdata = get_block_configdata('equella_search');
+$configdata = get_block_configdata('equella_search', $courseid);
 
 ?>
 <form action="equella_search_api.php" method="get">
 	<input type="hidden" name="courseid" value="<?php echo $courseid ?>" />
 	<input type="hidden" name="form_submitted" value="1" />
 
+	<br>
 	<div align="center">
 		<label for="searchstring"><?php echo get_string('search.label', 'block_equella_search') ?></a>
 		<input type="text" id="searchstring" name="searchstring" size="40" value="<?php echo $searchstring ?>" />
 		<input type="submit" value="<?php echo get_string('search.button', 'block_equella_search') ?>" />
 	</div>
-
-	<br>
-	<hr>
-	<br>
 <?php
 
 if(isset($_REQUEST['form_submitted'])){
@@ -70,19 +64,22 @@ if(isset($_REQUEST['form_submitted'])){
 	$offset = $page*$perpage;
 
 	// array_filter with no second parameter removes all entries with null/0/false values
-	
-	$filter_collections = null;
-	if (isset($configdata->collection))
-	{
-		$filter_collections = array_keys(array_filter($configdata->collection));
-	}
-
+    
+    $filter_collections = null;
+    if (isset($configdata->collection))
+    {
+	    $filter_collections = array_keys(array_filter($configdata->collection));
+    }
 	$searchResultsXml = $equella->searchItems($searchstring, $filter_collections, null, 1, $sorttype, 0, $offset, $perpage);
 	$resultsavailable = $searchResultsXml->nodeValue('/results/available');
 
 	if( $resultsavailable ) {
-	
-		$table = new html_table();
+	?>
+    	<br>
+    	<hr>
+	    <br>
+    <?php
+		$table = new object();
 		$table->width = '100%';
 		$table->align = array('left', 'left', 'left', 'center');
 
@@ -103,9 +100,9 @@ if(isset($_REQUEST['form_submitted'])){
 			{
 				$itemFullUrl = $itemUrl.'?attachment.uuid='.$attUuid;
 			}
-			
+	
 			$table->data[] = array (
-				htmlentities($searchResultsXml->nodeValue('xml/item/name', $result), ENT_COMPAT, 'UTF-8'), 
+				htmlentities($searchResultsXml->nodeValue('xml/item/name', $result), ENT_COMPAT, 'UTF-8'),
 				htmlentities($searchResultsXml->nodeValue('xml/item/description', $result), ENT_COMPAT, 'UTF-8'),
 				htmlentities($itemFile, ENT_COMPAT, 'UTF-8'),
 				'<a href="'.equella_appendtoken($itemFullUrl).'" target="_blank">'.get_string('view', 'block_equella_search').'</a>'
@@ -135,12 +132,10 @@ if(isset($_REQUEST['form_submitted'])){
 			'total' => $resultsavailable			
 		)).'</h3>';
 
-		echo html_writer::table($table);
+		print_table($table);
 		echo '<p>&nbsp;</p>';
 		
-		$pagingbar = new paging_bar($resultsavailable, $page, $perpage, reloadQuery()."sorttype=$sorttype&amp;");
-		$pagingbar->pagevar = 'page';
-		echo $OUTPUT->render($pagingbar);
+		print_paging_bar($resultsavailable, $page, $perpage, reloadQuery()."sorttype=$sorttype&amp;");
 
 	} else {
 
@@ -148,12 +143,12 @@ if(isset($_REQUEST['form_submitted'])){
 
 	}
 
-	echo get_String('tryequella', 'block_equella_search', equella_appendtoken(equella_full_url('access/search.do')));
+	echo get_string('tryequella', 'block_equella_search', equella_appendtoken(equella_full_url('access/search.do')));
 }
 
 echo '</form><br>';
-echo $OUTPUT->container_end();
-echo $OUTPUT->footer($course);
+print_container_end();
+print_footer($course);
 
 ///////////////// Functions /////////////////
 

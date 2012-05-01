@@ -19,8 +19,15 @@ class block_equella_search extends block_list {
 
 	function init() {
 		$this->title = get_string('title', 'block_equella_search');
+		$this->version = 2011012800;
 	}
 
+    function specialization() {
+      if (!isset($this->config->collection)) {
+        $this->config->collection = array();
+      }    
+    }
+    
 	function get_content() {
 
 		global $CFG, $USER, $SITE, $COURSE;
@@ -36,22 +43,7 @@ class block_equella_search extends block_list {
 		$this->content = new stdClass;
 		$this->content->items = array();
 		$this->content->icons = array();
-		if(isset($this->config->search_type1)){
-			$this->content->search_type1 = $this->config->search_type1;
-		}
-		if(isset($this->config->search_type2)){
-			$this->content->search_type2 = $this->config->search_type2;
-		}
-		if(isset($this->config->collection1)){
-			$this->content->collection1 = $this->config->collection1;
-		}
-		if(isset($this->config->collection2)){
-			$this->content->collection2 = $this->config->collection2;
-		}
-		if(isset($this->config->collection3)){
-			$this->content->collection3 = $this->config->collection3;
-		}
-		$this->content->footer = '';
+        $this->content->footer = '';
 
 		if (empty($this->instance->pageid)) { // sticky
 			if (!empty($COURSE)) {
