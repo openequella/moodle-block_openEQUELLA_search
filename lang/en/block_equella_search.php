@@ -38,5 +38,7 @@ $string['sort.3'] = 'User rating';
 $string['resultcount'] = 'Showing {$a->from} to {$a->to} of {$a->total} results';
 $string['noresults'] = 'No results found';
 $string['order'] = 'Order the results by';
-$string['tryequella'] = '<p>Can\'t find what you\'re looking for?  Try <a href="{$a}" target="_blank">searching with the EQUELLA native interface</a> which provides more options.</p>';	
-?>
+$string['tryequella'] = '<p>Can\'t find what you\'re looking for?  Try <a href="{$a}" target="_blank">searching with the EQUELLA native interface</a> which provides more options.</p>';
+$string['equella_search:addinstance'] = 'Add EQUELLA search block';
+$string['equella_search:view'] = 'View EQUELLA search block';
+$string['block/equella_search:search'] = 'Search in EQUELLA';

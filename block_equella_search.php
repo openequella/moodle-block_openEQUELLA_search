@@ -71,14 +71,17 @@ class block_equella_search extends block_list {
 			$course = $SITE;
 		}
 
-		if (!has_capability('moodle/course:view', $context)) {  // Just return
+		if (!has_capability('block/equella_search:view', $context)) {  // Just return
 			return $this->content;
 		}
 
 		/// Search Equella
-		if ($course->id !== SITEID and has_capability('moodle/course:managefiles', $context)) {
-			$this->content->items[]= '<a href="'.$CFG->wwwroot.'/blocks/equella_search/equella_search_api.php?courseid='.$this->instance->pageid.'">'.get_string('searchaction', 'block_equella_search').'</a>';
-			$this->content->icons[]= '<img src="'.$CFG->wwwroot.'/mod/equella/pix/icon-red.gif" class="icon" alt="" />';
+		if ($course->id !== SITEID and has_capability('block/equella_search:search', $context)) {
+                        $equellasearchurl = new moodle_url('/blocks/equella_search/equella_search_api.php', array('courseid'=>$this->instance->pageid));
+                        $this->content->items[] = html_writer::link($equellasearchurl, get_string('searchaction', 'block_equella_search'));
+                        $iconurl = new moodle_url('/mod/equella/pix/icon-red.gif');
+                        $icon = html_writer::empty_tag('img', array('src' => $iconurl, 'class' => 'icon', 'alt' => 'equella-icon'));
+			$this->content->icons[]= $icon;
 		}
 
 		return $this->content;

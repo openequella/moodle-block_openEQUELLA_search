@@ -16,13 +16,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Handles upgrading instances of this block.
  *
- * @package    block
- * @subpackage equella_search
+ * @param int $oldversion
+ * @param object $block
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2011012803;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->component = 'block_equella_search'; // Full name of the plugin (used for diagnostics)
+function xmldb_block_equella_search_upgrade($oldversion, $block) {
+    return true;
+}
