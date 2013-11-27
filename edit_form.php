@@ -36,8 +36,7 @@ class block_equella_search_edit_form extends block_edit_form {
             $collectionsXml = $equella->contributableCollections();
         }
 
-        foreach( $collectionsXml->nodeList('/xml/itemdef') as $collectionNode)
-        {
+        foreach( $collectionsXml->nodeList('/xml/itemdef') as $collectionNode) {
             $value = 'config_collection['. $collectionsXml->nodeValue('uuid', $collectionNode) . ']';
             $mform->addElement('advcheckbox', $value, $collectionsXml->nodeValue('name', $collectionNode), null, array('group' => 1));
         }
