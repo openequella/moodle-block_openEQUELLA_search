@@ -25,7 +25,7 @@ require_once($CFG->dirroot.'/blocks/equella_search/block_equella_search.php');
 
 global $DB, $CFG,$USER, $OUTPUT;
 
-$courseid       = required_param('courseid', PARAM_INT); 
+$courseid       = required_param('courseid', PARAM_INT);
 $page			= optional_param('page', 0, PARAM_INT);
 $perpage		= optional_param('perpage', 10, PARAM_INT);
 $sorttype		= optional_param('sorttype', 3, PARAM_INT);
@@ -39,7 +39,7 @@ require_login($course);
 $PAGE->set_url('/blocks/equella_search/equella_search_api.php', array('courseid' => $courseid));
 $PAGE->set_title($course->shortname.': '.get_string('pagetitle', 'block_equella_search'));
 $PAGE->set_heading($course->fullname.': '.get_string('pagetitle', 'block_equella_search'));
-$PAGE->navbar->add(get_string('searchaction', 'block_equella_search'), $CFG->wwwroot.'/blocks/equella_search/equella_search_api.php?courseid='.$courseid); 
+$PAGE->navbar->add(get_string('searchaction', 'block_equella_search'), $CFG->wwwroot.'/blocks/equella_search/equella_search_api.php?courseid='.$courseid);
 
 echo $OUTPUT->header();
 echo $OUTPUT->container_start();
@@ -66,11 +66,11 @@ if(isset($_REQUEST['form_submitted'])){
 
 	$equella = new EQUELLA(equella_soap_endpoint());
 	$equella->loginWithToken(equella_getssotoken());
-	
+
 	$offset = $page*$perpage;
 
 	// array_filter with no second parameter removes all entries with null/0/false values
-	
+
 	$filter_collections = null;
 	if (isset($configdata->collection))
 	{
@@ -81,7 +81,7 @@ if(isset($_REQUEST['form_submitted'])){
 	$resultsavailable = $searchResultsXml->nodeValue('/results/available');
 
 	if( $resultsavailable ) {
-	
+
 		$table = new html_table();
 		$table->width = '100%';
 		$table->align = array('left', 'left', 'left', 'center');
@@ -103,9 +103,9 @@ if(isset($_REQUEST['form_submitted'])){
 			{
 				$itemFullUrl = $itemUrl.'?attachment.uuid='.$attUuid;
 			}
-			
+
 			$table->data[] = array (
-				htmlentities($searchResultsXml->nodeValue('xml/item/name', $result), ENT_COMPAT, 'UTF-8'), 
+				htmlentities($searchResultsXml->nodeValue('xml/item/name', $result), ENT_COMPAT, 'UTF-8'),
 				htmlentities($searchResultsXml->nodeValue('xml/item/description', $result), ENT_COMPAT, 'UTF-8'),
 				htmlentities($itemFile, ENT_COMPAT, 'UTF-8'),
 				'<a href="'.equella_appendtoken($itemFullUrl).'" target="_blank">'.get_string('view', 'block_equella_search').'</a>'
@@ -114,7 +114,7 @@ if(isset($_REQUEST['form_submitted'])){
 			echo '<input type="hidden" name="url_'.$itemUuid.'"  value="'.$itemUrl.'" />';
 			echo '<input type="hidden" name="file_'.$itemUuid.'" value="'.$itemFile.'" />';
 		}
-	
+
 		?>
 			<div style="float: right">
 				<label for="sorttype"><?php echo get_string('order', 'block_equella_search') ?></label>
@@ -132,12 +132,12 @@ if(isset($_REQUEST['form_submitted'])){
 		echo '<h3>'.get_string('resultcount', 'block_equella_search', array(
 			'from' => ($page * $perpage) + 1,
 			'to' => min(($page * $perpage) + $perpage, $resultsavailable),
-			'total' => $resultsavailable			
+			'total' => $resultsavailable
 		)).'</h3>';
 
 		echo html_writer::table($table);
 		echo '<p>&nbsp;</p>';
-		
+
 		$pagingbar = new paging_bar($resultsavailable, $page, $perpage, reloadQuery()."sorttype=$sorttype&amp;");
 		$pagingbar->pagevar = 'page';
 		echo $OUTPUT->render($pagingbar);
@@ -159,7 +159,7 @@ echo $OUTPUT->footer($course);
 
 /**
  * Does not include "sorttype".  Do it yourself!
- */ 
+ */
 function reloadQuery($page = null) {
 	global $searchstring, $perpage, $courseid;
 	return "?searchstring=$searchstring&amp;perpage=$perpage&amp;courseid=$courseid&amp;form_submitted=1&amp;";
@@ -174,7 +174,7 @@ function suppress_node_not_found($string){
 	{
 	 return '';
 	}
-	return $string;	
+	return $string;
 }
 
 function sortOption($num) {
@@ -185,4 +185,3 @@ function sortOption($num) {
 	}
 	echo '>'.get_string('sort.'.$num, 'block_equella_search').'</option>';
 }
-?>

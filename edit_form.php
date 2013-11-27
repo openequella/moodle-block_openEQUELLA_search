@@ -21,29 +21,27 @@ require_once($CFG->dirroot.'/mod/equella/common/soap.php');
 class block_equella_search_edit_form extends block_edit_form {
     protected function specific_definition($mform) {
 
-		$equella = new EQUELLA(equella_soap_endpoint());
-		$equella->loginWithToken(equella_getssotoken());
+        $equella = new EQUELLA(equella_soap_endpoint());
+        $equella->loginWithToken(equella_getssotoken());
 
-		$mform->addElement('header', 'configheader', get_string('config.collections.title', 'block_equella_search'));
+        $mform->addElement('header', 'configheader', get_string('config.collections.title', 'block_equella_search'));
 
-		// Bit of a hack here since we want to give users is a list of searchable collections,
-		// but unfortunatley the current 4.1 version, QA3, does not have such a method.  The
-		// addition of a new method has been proposed, but we still need to check if the method
-		// doesn't exist and fallback to getting a list of contributable collections.
-		if( $equella->hasMethod('getSearchableCollections') ) {
-			$collectionsXml = $equella->searchableCollections();
-		} else {
-			$collectionsXml = $equella->contributableCollections();
-		}
-		
-		foreach( $collectionsXml->nodeList('/xml/itemdef') as $collectionNode)
-		{
-			$value = 'config_collection['. $collectionsXml->nodeValue('uuid', $collectionNode) . ']';
-			$mform->addElement('advcheckbox', $value, $collectionsXml->nodeValue('name', $collectionNode), null, array('group' => 1));
-		}
+        // Bit of a hack here since we want to give users is a list of searchable collections,
+        // but unfortunatley the current 4.1 version, QA3, does not have such a method.  The
+        // addition of a new method has been proposed, but we still need to check if the method
+        // doesn't exist and fallback to getting a list of contributable collections.
+        if( $equella->hasMethod('getSearchableCollections') ) {
+            $collectionsXml = $equella->searchableCollections();
+        } else {
+            $collectionsXml = $equella->contributableCollections();
+        }
 
-		$this->add_checkbox_controller(1, '', null);
-	}
+        foreach( $collectionsXml->nodeList('/xml/itemdef') as $collectionNode)
+        {
+            $value = 'config_collection['. $collectionsXml->nodeValue('uuid', $collectionNode) . ']';
+            $mform->addElement('advcheckbox', $value, $collectionsXml->nodeValue('name', $collectionNode), null, array('group' => 1));
+        }
+
+        $this->add_checkbox_controller(1, '', null);
+    }
 }
-
-
