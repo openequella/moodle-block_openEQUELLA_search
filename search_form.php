@@ -10,7 +10,8 @@ class block_equella_search_form extends moodleform {
         $courseid = $this->_customdata['courseid'];
 
         // visible elements
-        $mform->addElement('text', 'searchstring', get_string('search.label', 'block_equella_search'), 'size="48"');
+        $mform->addElement('text', 'searchstring', get_string('search.label', 'block_equella_search'), array('size'=>48));
+        $mform->setType('searchstring', PARAM_TEXT);
 
         // hidden optional params
         $mform->addElement('hidden', 'courseid', $courseid);
