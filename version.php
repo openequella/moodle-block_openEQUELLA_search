@@ -26,3 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version   = 2011012803;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->component = 'block_equella_search'; // Full name of the plugin (used for diagnostics)
+$plugin->dependencies = array(
+    'mod_equella' => 2015042000
+);
