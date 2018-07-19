@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-$string['pluginname'] = 'EQUELLA Search';
-$string['title'] = 'EQUELLA Search';
-$string['searchaction'] = 'Search EQUELLA';
+$string['pluginname'] = 'openEQUELLA Search';
+$string['title'] = 'openEQUELLA Search';
+$string['searchaction'] = 'Search openEQUELLA';
 $string['config.collections.title'] = 'Restrict To Selected Collections (no selections implies no restriction)';
-$string['pagetitle'] = 'EQUELLA Search';
+$string['pagetitle'] = 'openEQUELLA Search';
 
 $string['view'] = 'View';
 $string['search.label'] = 'Search for';
@@ -38,7 +38,7 @@ $string['sort.3'] = 'User rating';
 $string['resultcount'] = 'Showing {$a->from} to {$a->to} of {$a->total} results';
 $string['noresults'] = 'No results found';
 $string['order'] = 'Order the results by';
-$string['tryequella'] = '<p>Can\'t find what you\'re looking for?  Try <a href="{$a}" target="_blank">searching with the EQUELLA native interface</a> which provides more options.</p>';
-$string['equella_search:addinstance'] = 'Add EQUELLA search block';
-$string['equella_search:view'] = 'View EQUELLA search block';
-$string['block/equella_search:search'] = 'Search in EQUELLA';
+$string['tryequella'] = '<p>Can\'t find what you\'re looking for?  Try <a href="{$a}" target="_blank">searching with the openEQUELLA native interface</a> which provides more options.</p>';
+$string['equella_search:addinstance'] = 'Add openEQUELLA search block';
+$string['equella_search:view'] = 'View openEQUELLA search block';
+$string['block/equella_search:search'] = 'Search in openEQUELLA';
