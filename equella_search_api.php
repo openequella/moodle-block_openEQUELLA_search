@@ -91,10 +91,10 @@ if (!empty($searchstring)) {
         }
 
         foreach( $searchResultsXml->nodeList('/results/result') as $result ) {
-            $itemUuid = $searchResultsXml->nodeValue('xml/item/@id', $result);
-            $itemUrl = $searchResultsXml->nodeValue('xml/item/url', $result);
-            $itemFile = $searchResultsXml->nodeValue('xml/item/attachments/attachment/file', $result);
-            $attUuid = $searchResultsXml->nodeValue('xml/item/attachments/attachment/uuid', $result);
+            $itemUuid = filter_var($searchResultsXml->nodeValue('xml/item/@id', $result), FILTER_SANITIZE_STRING);
+            $itemUrl = filter_var($searchResultsXml->nodeValue('xml/item/url', $result), FILTER_SANITIZE_URL);
+            $itemFile = filter_var($searchResultsXml->nodeValue('xml/item/attachments/attachment/file', $result), FILTER_SANITIZE_STRING);
+            $attUuid = filter_var($searchResultsXml->nodeValue('xml/item/attachments/attachment/uuid', $result), FILTER_SANITIZE_STRING);
             if ($itemFile == '') {
                 $itemFullUrl = $itemUrl . 'viewdefault.jsp';
             } else {
