@@ -42,3 +42,4 @@ $string['tryequella'] = '<p>Can\'t find what you\'re looking for?  Try <a href="
 $string['equella_search:addinstance'] = 'Add openEQUELLA search block';
 $string['equella_search:view'] = 'View openEQUELLA search block';
 $string['block/equella_search:search'] = 'Search in openEQUELLA';
+$string['privacy:metadata'] = 'This block does not store any data.';
