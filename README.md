@@ -5,7 +5,7 @@ Installation
 ------------
 - Unzip the archive
 - Rename the folder to "equella_search"
-- Copy "equella_links" folder to {$MOODLE}/blocks/ 
+- Copy "equella_search" folder to {$MOODLE}/blocks/ 
 
 Requirements
 ------------
