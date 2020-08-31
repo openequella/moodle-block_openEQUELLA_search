@@ -1,6 +1,12 @@
 Moodle block for searching openEQUELLA
 =============
 
+Installation
+------------
+- Unzip the archive
+- Rename the folder to "equella_search"
+- Copy "equella_links" folder to {$MOODLE}/blocks/ 
+
 Requirements
 ------------
 
